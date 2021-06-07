@@ -21,38 +21,6 @@ class Employee (val id : Int, var post : String, var salary : Int, var surname :
             var products = gson.fromJson(inputString, Array<Employee>::class.java)
 
             return products
-            /*
-            products.forEach{
-                it.printInfo()
-            }
-             */
-
-            // Всякие красивые выводы
-            /*
-            println(products.productList.size)
-            products.productList.forEach{
-                it.printInfo()
-            }
-            //Initialize the String Builder
-
-            var stringBuilder = StringBuilder("Product Details\n---------------------")
-            stringBuilder?.append("\nProduct id: " + product.id)
-            stringBuilder?.append("\nProduct name: " + product.name)
-            stringBuilder?.append("\nProduct cost: " + product.cost)
-            stringBuilder?.append("\nCount:" + product.count)
-            stringBuilder?.append("\nCount sold:" + product.countSold)
-            stringBuilder?.append("\nStructure:" + product.structure)
-            stringBuilder?.append("\nExpiration date:" + product.expirationDate)
-
-            // прочесть массив данных
-
-            stringBuilder? .append ("\ nTags:")
-            //get the all Tags
-            product.postTag?.forEach { tag -> stringBuilder?.append(tag + ",") }
-
-            //Display the all Json object in text View
-            println(stringBuilder.toString())
-            */
         }
 
         fun writeToJSON (path: String, productsList: Array<Employee>) {

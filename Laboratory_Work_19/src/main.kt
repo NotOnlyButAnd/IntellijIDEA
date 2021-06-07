@@ -4,12 +4,82 @@ fun addElement(arr: Array<Product>, element: Product): Array<Product> {
     return mutableArray.toTypedArray()
 }
 
+//запросы
+//самый продаваемый товар в данном магазине
+fun select1(shop: Shop, maxS: Int, name: String, realizations: Array<Realization>, products: Array<Product>): String{
+    var maxName: String = name
+    var max = maxS
+    shop.realizationsId.forEach{
+        val cur = shop.getRealization(0, it, realizations)
+        //println("${cur.count} ${max}")
+        if (cur.count > max){
+            //select1(shop, cur.count, cur.getProduct(0, cur.productId, products).name, realizations, products)
+                max = cur.count
+            maxName = cur.getProduct(0, cur.productId, products).name
+        }
+    }
+    return maxName
+}
+
+fun select1cool(shop: Shop, realizations: Array<Realization>, products: Array<Product>) =
+    select1(shop, 0, "popa", realizations, products)
+
+//средняя зп по каждому магазину
+fun select2(shops: Array<Shop>, employees: Array<Employee>){
+
+    shops.forEach {
+        val curShop = it
+        val count = curShop.employeesId.size
+        var midSalary = 0
+        it.employeesId.forEach {
+            midSalary += curShop.getEmployee(0, it, employees).salary
+        }
+        println("Средняя зп ${curShop.address}: ${midSalary/count}")
+    }
+}
+
+//fkdkfjslkdfsdj
+fun select3(products: Array<Product>){
+    products.forEach {
+        if (it.structure.contains("Вода", true))
+            println(it.name)
+    }
+}
+
+//магазин в которых есть Молоко
+fun select4(shops: Array<Shop>, products: Array<Product>){
+    shops.forEach {
+        val curShop = it
+        it.productsId.forEach {
+            if (curShop.getProduct(0, it, products).name == "Молоко")
+                println(curShop.address)
+        }
+    }
+}
+
+//самый дорогой продукт в каждом магазине
+fun select5(shops: Array<Shop>, products: Array<Product>){
+    shops.forEach {
+        val curShop = it
+        var maxName = ""
+        var maxCost = 0
+        it.productsId.forEach {
+            val curProd = curShop.getProduct(0, it, products)
+            if (curProd.cost > maxCost){
+                maxCost = curProd.cost
+                maxName = curProd.name
+            }
+        }
+        println("${curShop.address}: $maxName по приколу $maxCost")
+    }
+}
+
 fun main() {
 
-    val pathToJSONProducts : String = "F:\\Кирилл\\IntellijIDEA projects\\Laboratory_Work_19\\src\\product.json"
-    val pathToJSONEmployees : String = "F:\\Кирилл\\IntellijIDEA projects\\Laboratory_Work_19\\src\\employee.json"
-    val pathToJSONRealizations : String = "F:\\Кирилл\\IntellijIDEA projects\\Laboratory_Work_19\\src\\realization.json"
-    val pathToJSONShops : String = "F:\\Кирилл\\IntellijIDEA projects\\Laboratory_Work_19\\src\\shop.json"
+    val pathToJSONProducts : String = "C:\\Users\\zubko\\OneDrive\\Desktop\\Laboratory_Work_19\\src\\product.json"
+    val pathToJSONEmployees : String = "C:\\Users\\zubko\\OneDrive\\Desktop\\Laboratory_Work_19\\src\\employee.json"
+    val pathToJSONRealizations : String = "C:\\Users\\zubko\\OneDrive\\Desktop\\Laboratory_Work_19\\src\\realization.json"
+    val pathToJSONShops : String = "C:\\Users\\zubko\\OneDrive\\Desktop\\Laboratory_Work_19\\src\\shop.json"
 
     var prodsFromJSON : Array<Product> = Product.readfromJSON(pathToJSONProducts)
     println("------------------\nProducts\n------------------")
@@ -43,6 +113,27 @@ fun main() {
     shopsFromJSON.forEach {
         it.printInfo()
     }
+
+    //println(realizationsFromJSON[2].getProduct(0, realizationsFromJSON[2].productId, prodsFromJSON).name)
+
+
+    //select1
+    print("\nСамый продаваемый товар в 1 магазине: ")
+    println(select1cool(shopsFromJSON[0], realizationsFromJSON, prodsFromJSON))
+
+    print("\nСамый продаваемый товар в 2 магазине: ")
+    println(select1cool(shopsFromJSON[1], realizationsFromJSON, prodsFromJSON))
+
+    select2(shopsFromJSON, employeesFromJSON)
+
+    println("\nПродукты содержащие воду")
+    select3(prodsFromJSON)
+
+    println("\nМагазины в которых есть молоко")
+    select4(shopsFromJSON, prodsFromJSON)
+
+    println("\nСамые дорогие продукты в каждом магазине")
+    select5(shopsFromJSON, prodsFromJSON)
 
     // Запись продуктов в JSON
     //Product.writeToJSON(pathToJSONProducts, prodsFromJSON)
@@ -104,3 +195,4 @@ fun main() {
      */
 
 }
+

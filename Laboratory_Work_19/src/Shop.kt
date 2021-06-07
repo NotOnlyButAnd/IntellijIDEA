@@ -7,6 +7,40 @@ class Shop (val id : Int, var address : String){
     var employeesId : MutableList<Int> = mutableListOf()
     var realizationsId : MutableList<Int> = mutableListOf()
 
+    fun getProduct (counter: Int, id: Int, products: Array<Product>): Product =
+        if (counter != products.size)
+        {
+            if(products[counter].id == id)
+                products[counter]
+            else
+                getProduct(counter+1, id, products)
+        }
+        else
+            throw IllegalArgumentException("Try again")
+
+    fun getEmployee (counter: Int, id: Int, employees: Array<Employee>): Employee =
+        if (counter != employees.size)
+        {
+            if(employees[counter].id == id)
+                employees[counter]
+            else
+                getEmployee(counter+1, id, employees)
+        }
+        else
+            throw IllegalArgumentException("Try again")
+
+    fun getRealization (counter: Int, id: Int, realizations: Array<Realization>): Realization =
+        if (counter != realizations.size)
+        {
+            if(realizations[counter].id == id)
+                realizations[counter]
+            else
+                getRealization(counter+1, id, realizations)
+        }
+        else
+            throw IllegalArgumentException("Try again")
+
+
     fun printProductsId () : Unit{
         println("Products of shop $id:")
         productsId.forEach{

@@ -8,6 +8,18 @@ class Realization (val id : Int, val productId: Int, var count : Int, val shopId
         println("ID: $id;\nProduct: $productId;\nCount: $count;\nShop: $shopId;\n")
     }
 
+
+    fun getProduct(counter: Int, id: Int, products: Array<Product>): Product =
+        if (counter != products.size)
+        {
+            if(products[counter].id == id)
+                products[counter]
+            else
+                getProduct(counter+1, id, products)
+        }
+        else
+            throw IllegalArgumentException("Try again")
+
     companion object{
         fun readfromJSON(f:String) : Array<Realization> {
             //Creating a new Gson object to read data
